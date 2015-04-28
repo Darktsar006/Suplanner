@@ -1,0 +1,293 @@
+package SuPlannerGui;
+
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.List;
+
+import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
+
+import managerSupPlanner.Project;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.LinkedList;
+
+import jdbcSupPlanner.*;
+
+public class GUIUserLogin extends JFrame implements MenuListener, ActionListener
+{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private Connection connection;
+	
+	// Menu Principale
+	private JMenuBar menuBar = new JMenuBar();
+	private JMenu login = new JMenu("Login");
+	private JMenu create = new JMenu("Sign in");
+	private JMenu project = new JMenu("Project");
+	
+	private int choixMenu; 
+	// A ="select $ from shit where truc = machin"
+	// a.execute
+	// n = a.nbrow
+	String[][] projectContent;
+	String[] entetes = {"ID", "Name", "Auhtor", "Start Time",
+			"End Time", "Completion"};
+	// Panel
+	JPanel panel1 = new JPanel(); 	
+	
+	// Panel Pour le contenu
+	JPanel panel2 = new JPanel(); // Pour le login
+	JTable panel3 = new JTable(projectContent, entetes); // Pour les projects sous forme de Table
+	JScrollPane panel4 = new JScrollPane(panel3);
+	
+	JPanel panelMessage = new JPanel();	
+	
+	
+	// Section Login
+	JLabel JLabelEmail = new JLabel("Email : ");
+	JTextField JTextEmail = new JTextField(12);
+	JLabel JLabelPassword = new JLabel("Password : ");
+	JTextField JTextPassword = new JTextField(12);
+	
+	JButton JButtonSubmit = new JButton("Submit");
+	
+	GridBagConstraints c;;
+	
+	// Section Create Salary
+	JLabel JLabelLastName = new JLabel("LastName : ");
+	JTextField JTextLastName = new JTextField(12);
+	JLabel JLabelFirstName = new JLabel(" : FirstName");
+	JTextField JTextFirstName = new JTextField(12);
+	JLabel JLabelPasswordC = new JLabel(" : Confirm Password");
+	JTextField JTextPasswordC = new JTextField(12);
+	JLabel JLabelRole = new JLabel(" : Role");
+	JTextField JTextRole = new JTextField(12);
+	
+	// Section Message D'erreur
+	JLabel jLabelMessage = new JLabel("OK");
+	
+	public GUIUserLogin(Connection d)
+	{
+		connection = d;;
+		choixMenu = 0;
+		projectContent = new String[100][6];
+		
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setVisible(true);
+		this.setSize(700, 300);
+		this.setTitle("Sup Planner B2");
+		//this.setBounds(100, 200, 700, 300);
+		
+		this.setJMenuBar(menuBar);
+		
+		c= new GridBagConstraints();
+		
+		menuBar.add(login);
+		menuBar.add(create);
+		menuBar.add(project);
+		
+		this.getContentPane().add(panelMessage, BorderLayout.SOUTH);
+		panel2.setLayout(new GridBagLayout());
+		
+		panelMessage.add(jLabelMessage);
+		
+		// Listener
+		JButtonSubmit.addActionListener(this);
+		login.addMenuListener(this);
+		create.addMenuListener(this);
+		project.addMenuListener(this);;
+	}
+
+	public void menuCanceled(MenuEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	public void menuDeselected(MenuEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void panelSelected1()
+	{
+		choixMenu = 1;
+		
+		this.getContentPane().revalidate();
+		this.getContentPane().repaint();
+		this.remove(panel1);
+		this.remove(panel4);
+		this.setSize(700, 300);
+		this.getContentPane().add(panel2, BorderLayout.CENTER);
+		panel2.setLayout(new GridBagLayout());
+		
+		c.gridx = 0;	c.gridy = 0;
+		c.insets = new Insets(0,0,0,0);
+		panel2.add(JLabelLastName, c);
+		
+		c.gridx = 1;	c.gridy = 0;
+		panel2.add(JTextLastName, c);
+		
+		c.gridx = 2;	c.gridy = 0;
+		panel2.add(JTextFirstName, c);
+		
+		c.gridx = 3;	c.gridy = 0;
+		c.insets = new Insets(0,0,0,0);
+		panel2.add(JLabelFirstName, c);
+		
+		
+		c.gridx = 0; c.gridy = 1;
+		panel2.add(JLabelPassword, c);
+		
+		c.gridx = 1; c.gridy = 1;
+		panel2.add(JTextPassword, c);
+		
+		c.gridx = 2;	c.gridy = 1;
+		panel2.add(JTextPasswordC, c);
+		
+		c.gridx = 3;	c.gridy = 1;
+		c.insets = new Insets(0,0,0,0);
+		panel2.add(JLabelPasswordC, c);
+		
+		
+		c.gridx = 0;	c.gridy = 2;
+		c.insets = new Insets(0,0,0,0);
+		panel2.add(JLabelEmail, c);
+		
+		c.gridx = 1;	c.gridy = 2;
+		panel2.add(JTextEmail, c);
+		
+		c.gridx = 2;	c.gridy = 2;
+		panel2.add(JTextRole, c);
+		
+		c.gridx = 3;	c.gridy = 2;
+		c.insets = new Insets(0,0,0,0);
+		panel2.add(JLabelRole, c);
+		
+		c.gridx = 1;
+		c.gridy = 4;
+		c.insets = new Insets(20,0,0,0);
+		panel2.add(JButtonSubmit, c);
+	}
+	
+	public void panelSelected2()
+	{
+		choixMenu = 0;
+		
+		this.getContentPane().revalidate();
+		this.getContentPane().repaint();
+		this.getContentPane().add(panel1, BorderLayout.CENTER);
+		this.remove(panel2);
+		this.remove(panel4);
+		panel1.setLayout(new GridBagLayout());
+		
+		c.gridx = 0;
+		c.gridy = 0;
+		c.insets = new Insets(0,0,0,0);
+		panel1.add(JLabelEmail, c);
+		
+		c.gridx = 1;
+		c.gridy = 0;
+		panel1.add(JTextEmail, c);
+		
+		c.gridx = 0;
+		c.gridy = 1;
+		panel1.add(JLabelPassword, c);
+		
+		c.gridx = 1;
+		c.gridy = 1;
+		panel1.add(JTextPassword, c);
+		
+		c.gridx = 1;
+		c.gridy = 2;
+		c.insets = new Insets(20,0,0,0);
+		panel1.add(JButtonSubmit, c);
+	}
+	
+	public void panelSelected3()
+	{
+		choixMenu = 2;
+		
+		this.getContentPane().revalidate();
+		this.getContentPane().repaint();
+		this.getContentPane().add(panel4, BorderLayout.CENTER);
+		this.remove(panel1);
+		this.remove(panel2);
+		panel4.setLayout(new GridBagLayout());
+		
+		Project[] compile = new Project[100];
+		
+		displatAllProject(Project[] compile)
+		
+		pack();
+	}
+	
+	public void menuSelected(MenuEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource() == create)
+		{
+			panelSelected1();
+		}
+		else if (e.getSource() == login)
+		{
+			panelSelected2();
+		}
+		else if (e.getSource() == project)
+		{
+			panelSelected3();
+		}
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource() == JButtonSubmit)
+		{
+			JdbcEmployeDao t = new JdbcEmployeDao(connection);
+			String email = JTextEmail.getText();
+			String password = JTextPassword.getText();
+			String passwordT = JTextPasswordC.getText();
+			
+			String lastname = JTextLastName.getText();
+			String firstname = JTextFirstName.getText();
+			String role = JTextRole.getText();
+			
+			switch(choixMenu)
+			{
+				case 0:
+					if(t.loginEmploye(email, password))
+					{
+						jLabelMessage.setText("Login successful");
+					}
+					else
+					{
+						jLabelMessage.setText("Login failed");
+					}
+					break;
+				case 1:
+					if(t.createEmploye(lastname, firstname, 
+							email, password, passwordT,
+							role))
+					{
+						jLabelMessage.setText("Salary Created");
+					}
+					else
+					{
+						jLabelMessage.setText("Create Fail ! Verify the password content 1 lettre UpperCase and 1 number a containt 8 caractere");
+					}
+					break;
+				case 2:
+					jLabelMessage.setText("Project");
+					break;
+			}
+		}
+	}
+}

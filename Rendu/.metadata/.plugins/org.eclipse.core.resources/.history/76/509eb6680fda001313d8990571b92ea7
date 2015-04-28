@@ -1,0 +1,46 @@
+package SuPlannerGui;
+
+import java.util.ArrayList;
+
+import javax.swing.table.AbstractTableModel;
+
+
+
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
+
+import managerSupPlanner.*;
+
+public class ModelDynamicTable extends AbstractTableModel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	List p = (List) new ArrayList<Project>();
+	
+	public int getColumnCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int getRowCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public Object getValueAt(int rowIndex, int columIndex) {
+		// TODO Auto-generated method stub
+		switch(columIndex)
+		{
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+		}
+		
+		return null;
+	}
+
+}

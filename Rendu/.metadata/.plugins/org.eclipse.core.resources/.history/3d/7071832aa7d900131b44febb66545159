@@ -1,0 +1,27 @@
+package SuPlannerGui;
+
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+
+import javax.swing.*;
+
+public class panelProject {
+	JPanel panel;
+	
+	JLabel username = new JLabel("Email : ");
+	JLabel password = new JLabel("Mot de passe : ");
+	
+	public panelProject()
+	{
+		panel = new JPanel();
+	}
+	
+	public void userLoginGUI(JFrame frameT)
+	{
+		frameT.getContentPane().add(panel, BorderLayout.CENTER);
+		panel.setLayout(new GridBagLayout());
+		
+		GridBagConstraints c = new GridBagConstraints();
+	}
+}

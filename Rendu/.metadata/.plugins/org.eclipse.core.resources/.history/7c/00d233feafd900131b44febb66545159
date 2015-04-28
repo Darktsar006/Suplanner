@@ -1,0 +1,18 @@
+import SuPlannerGui.GUI;
+
+public class supPlanner {
+	
+	public static void main(String[] args) {
+		
+		try
+		{
+			class.forName(com.mysql.jdbc.Driver.class.getName());
+		}catch (ClassNotFoundException e)
+		{
+			
+		}
+		
+		GUI g = new GUI();
+	}
+
+}

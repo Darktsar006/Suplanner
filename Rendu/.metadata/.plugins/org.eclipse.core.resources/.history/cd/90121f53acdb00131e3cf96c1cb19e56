@@ -1,0 +1,9 @@
+package interfaceSupPlanner;
+
+import managerSupPlanner.Task;
+
+public interface TaskDao {
+	public Task[] displayAllTask();
+	public boolean createTask(String name, int number, int completion);
+	boolean modifyTask(int idT, String name, String author, int numberX, int completionX);
+}

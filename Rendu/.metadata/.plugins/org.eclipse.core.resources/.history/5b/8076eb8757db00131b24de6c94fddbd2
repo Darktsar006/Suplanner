@@ -1,0 +1,7 @@
+package interfaceSupPlanner;
+
+public interface TaskDao {
+	public Task[] displayAllTask();
+	public boolean createTask();
+	public boolean modifyTask();
+}

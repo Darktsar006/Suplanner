@@ -1,0 +1,8 @@
+package interfaceSupPlanner;
+
+public interface ProjectDao {
+	public void displatAllProject();
+	public boolean createProject();
+	public boolean modifyProject();
+	public boolean inviteOther();
+}

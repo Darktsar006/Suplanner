@@ -1,0 +1,32 @@
+import java.sql.DriverManager;
+
+import com.mysql.jdbc.Connection;
+
+import java.sql.*;
+
+import SuPlannerGui.GUI;
+
+public class supPlanner {
+	
+	public static void main(String[] args) {
+		
+		try
+		{
+			Class.forName(com.mysql.jdbc.Driver.class.getName());
+			
+			Connection connection = (Connection) DriverManager.getConnection("jdbc:mysql://localhost/supplannerprojet", "root", "root");
+		
+			
+		}catch (ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		GUI g = new GUI();
+	}
+
+}

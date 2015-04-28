@@ -1,0 +1,22 @@
+package SuPlannerGui;
+
+import java.awt.BorderLayout;
+
+import javax.swing.*;
+
+public class panelProject {
+	JPanel panel;
+	
+	JLabel username = new JLabel("Username : ");
+	JLabel password = new JLabel("Username : ");
+	
+	public panelProject()
+	{
+		panel = new JPanel();
+	}
+	
+	public void userLoginGUI(JFrame frameT)
+	{
+		frameT.getContentPane().add(panel, BorderLayout.CENTER);
+	}
+}

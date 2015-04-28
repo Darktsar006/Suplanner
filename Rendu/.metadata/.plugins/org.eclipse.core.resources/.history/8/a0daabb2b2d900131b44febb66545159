@@ -1,0 +1,81 @@
+package managerSupPlanner;
+
+import java.util.Scanner;
+
+public class Employe {
+	private int id;
+	private String last_name;
+	private String first_name;
+	private String email;
+	private String password;
+	private String role;
+	
+	Scanner sc = new Scanner(System.in);
+	
+	public Employe()
+	{
+		
+	}
+	
+	public Employe(String ln, String fn, String em, String pass, String r)
+	{
+		this.last_name = ln;
+		this.first_name = fn;
+		this.email = em;
+		this.password = pass;
+		this.role = r;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getLast_name() {
+		return last_name;
+	}
+
+	public void setLast_name() {
+		System.out.println("Lastname :");
+		this.last_name = sc.nextLine();
+	}
+
+	public String getFirst_name() {
+		return first_name;
+	}
+
+	public void setFirst_name() {
+		System.out.println("Firstname");
+		this.first_name = sc.nextLine();
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail() {
+		System.out.println("Email");
+		this.email = sc.nextLine();
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole() {
+		System.out.println("Role (Manager | Employe) :");
+		this.role = sc.nextLine();
+	}
+
+}

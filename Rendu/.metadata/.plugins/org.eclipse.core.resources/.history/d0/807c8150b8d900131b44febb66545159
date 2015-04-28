@@ -1,0 +1,145 @@
+package jdbcSupPlanner;
+
+import interfaceSupPlanner.EmployeDao;
+import managerSupPlanner.Employe;
+
+import java.sql.*;
+import java.util.Scanner;
+
+public class JdbcEmployeDao implements EmployeDao {
+	Scanner sc = new Scanner(System.in);
+	private Connection connection;
+	
+	public JdbcEmployeDao(Connection c)
+	{
+		connection = c;
+	}
+	
+	// Cette méthode vérifie que le mot de passe contient un nombre
+	private boolean containNumber(String password)
+	{
+		if(password.contains("1") || password.contains("2") || password.contains("3"))
+			return true;
+		if(password.contains("4") || password.contains("5") || password.contains("6"))
+			return true;
+		if(password.contains("7") || password.contains("8"))
+			return true;
+		if(password.contains("9") || password.contains("0"))
+			return true;
+		
+		return false;
+	}
+	
+	// Cette méthode vérifie que le mot de passe contient un caractère en Majuscule
+	private boolean containUpperCase(String password)
+	{
+		if(password.contains("A") || password.contains("B") || password.contains("C"))
+			return true;
+		if(password.contains("D") || password.contains("E") || password.contains("F"))
+			return true;
+		if(password.contains("G") || password.contains("H") || password.contains("I"))
+			return true;
+		if(password.contains("J") || password.contains("K") || password.contains("L"))
+			return true;
+		if(password.contains("M") || password.contains("N") || password.contains("O"))
+			return true;
+		if(password.contains("P") || password.contains("Q") || password.contains("R"))
+			return true;
+		if(password.contains("S") || password.contains("T") || password.contains("U"))
+			return true;
+		if(password.contains("V") || password.contains("W") || password.contains("X"))
+			return true;
+		if(password.contains("Y") || password.contains("Z"))
+			return true;
+		
+		return false;
+	}
+	
+	private boolean isPassword(String password, String cpassword)
+	{
+		if(password.equals(cpassword))
+		{
+			if(password.length() > 7)
+			{
+				if(containNumber(password) && containUpperCase(password))
+				{
+					return true;
+				}
+			}
+				
+		}
+		return false;
+	}
+	
+	public boolean createEmploye() {
+		// TODO Auto-generated method stub
+		Employe salary = new Employe();
+		
+		salary.setLast_name();
+		salary.setFirst_name();
+		salary.setEmail("toto");
+		salary.setRole();
+		
+		// Password verify
+		System.out.println("Password");
+		String password = sc.nextLine();
+		System.out.println("Confirm Password");
+		String cpassword = sc.nextLine();
+		
+		if(isPassword(password, cpassword))
+		{
+			salary.setPassword(password);
+			
+			try
+			{
+				PreparedStatement pstm = connection.prepareStatement("INSERT INTO employe (lastname, firstname, email, passwordT, role) "
+					+ "VALUES (?, ?, ?, ?, ?)");
+				pstm.setString(1, salary.getFirst_name());
+				pstm.setString(2, salary.getLast_name());
+				pstm.setString(3, salary.getEmail());
+				pstm.setString(4, salary.getPassword());
+				pstm.setString(5, salary.getRole());
+				
+				pstm.executeUpdate();
+				System.out.println("Salary Created");
+			}catch(Exception e)
+			{
+				System.out.println("Faillure");
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	public boolean loginEmploye(String email, String password) {
+		// TODO Auto-generated method stub
+		Employe salary = new Employe();
+		
+		salary.setEmail(email);
+		salary.setPassword(password);
+		
+		try
+		{
+			Statement stm = connection.createStatement();
+			ResultSet rs = stm.executeQuery("SELECT * FROM employe");
+			while(rs.next())
+			{
+				String em = rs.getString("email");
+				String pass = rs.getString("passwordT");
+				
+				if(salary.getEmail().equals(em) && salary.getPassword().equals(pass))
+				{
+					System.out.println("Salary Logged");
+					return true;
+				}
+			}
+		}catch(Exception e)
+		{
+			System.out.println("Faillure");
+			e.printStackTrace();
+		}
+			
+		return false;
+	}
+
+}

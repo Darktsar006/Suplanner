@@ -1,0 +1,6 @@
+package interfaceSupPlanner;
+
+public interface EmployeDao {
+	public boolean createEmploye();
+	public boolean loginEmploye();
+}

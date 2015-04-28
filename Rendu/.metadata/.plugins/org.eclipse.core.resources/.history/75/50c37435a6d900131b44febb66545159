@@ -1,0 +1,17 @@
+package SuPlannerGui;
+
+import javax.swing.*;
+
+public class panelProject {
+	JPanel panel;
+	
+	public panelProject()
+	{
+		panel = new JPanel();
+	}
+	
+	public void userLoginGUI(JFrame frameT)
+	{
+		frameT.getContentPane().add(panel, BorderLayout.Center())
+	}
+}

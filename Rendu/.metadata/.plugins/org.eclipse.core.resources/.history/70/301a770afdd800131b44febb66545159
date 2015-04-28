@@ -1,0 +1,12 @@
+package SuPlannerGui;
+
+import javax.swing.*;
+
+public class panelProject {
+	
+	
+	public panelProject()
+	{
+		
+	}
+}

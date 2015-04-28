@@ -1,0 +1,126 @@
+package jdbcSupPlanner;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Scanner;
+
+import managerSupPlanner.Task;
+import interfaceSupPlanner.TaskDao;
+
+public class JdbcTaskDao implements TaskDao {
+	Scanner sc = new Scanner(System.in);
+	private Connection connection;
+	
+	public JdbcTaskDao(Connection c)
+	{
+		connection = c;
+	}
+	
+	public Task[] displayAllTask()
+	{
+		int count = 0;
+		
+		Task[] toto = new Task[100];
+		
+		try
+		{
+			Statement stm = connection.createStatement();
+			ResultSet rs = stm.executeQuery("SELECT * FROM task");
+			while(rs.next())
+			{	
+				toto[count] = new Task();
+				
+				toto[count].setId(Integer.parseInt(rs.getString("idTask")));
+				toto[count].setName(rs.getString("name"));
+				toto[count].setStart_Time(rs.getDate("start_time"));
+				toto[count].setEnd_Time(rs.getDate("end_time"));
+				toto[count].setEmploye_working(Integer.parseInt(rs.getString("employe_working")));
+				toto[count].setTask_completion(Integer.parseInt(rs.getString("task_completion")));
+				
+				count++;
+			}
+		}catch(Exception e)
+		{
+		}
+		
+		Task[] finale = new Task[count];
+		
+		for(int i = 0; i<count; i++)
+		{
+			finale[i] = toto[i];
+		}
+		return finale;
+	}
+	
+	public boolean createTask(String name, int number, int completion) {
+		// TODO Auto-generated method stub
+		Task compile = new Task();
+		
+		compile.setName(name);
+		
+		compile.setTask_completion(completion);
+		
+		compile.setEmploye_working(number);;
+		
+		try
+		{
+			PreparedStatement pstm = connection.prepareStatement("INSERT INTO task (name, employe_working, task_completion)"
+				+ "VALUES (?, ?, ?)");
+			pstm.setString(1, compile.getName());
+			pstm.setInt(2, compile.getEmploye_working());
+			pstm.setInt(3, compile.getTask_completion());
+			
+			pstm.executeUpdate();
+			System.out.println("Done");
+		}catch(Exception e)
+		{
+			System.out.println("Erreur");
+		}
+		
+		return false;
+	}
+
+	public boolean modifyTask() {
+		// TODO Auto-generated method stub
+		System.out.println("What do you want to modify ? : 1 - 5 : ");
+		String saisie;
+		saisie = sc.nextLine();
+		
+		Task compile = new Task();
+		try
+		{
+			PreparedStatement pstm = connection.prepareStatement("UPDATE project (?) VALUES (?)");
+			switch(Integer.parseInt(saisie))
+			{
+				case 1:	
+					pstm.setString(1, compile.getName());
+					pstm.executeUpdate();
+					break;
+				case 2:
+					pstm.setInt(1, compile.getEmploye_working());
+					pstm.executeUpdate();
+					break;
+				case 3:
+					pstm.setDate(1, (Date) compile.getStart_Time());
+					pstm.executeUpdate();
+					break;
+				case 4:
+					pstm.setDate(1, (Date) compile.getEnd_Time());
+					pstm.executeUpdate();
+					break;
+				case 5:
+					pstm.setInt(1, compile.getTask_completion());
+					pstm.executeUpdate();
+					break;
+			}
+		}catch (Exception e)
+		{
+			System.out.println("Ton cul");
+		}
+		return false;
+	}
+
+}

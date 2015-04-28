@@ -1,0 +1,22 @@
+import SuPlannerGui.GUI;
+
+public class supPlanner {
+	
+	public static void main(String[] args) {
+		
+		try
+		{
+			Class.forName(com.mysql.jdbc.Driver.class.getName());
+			
+			Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/supplannerprojet", "root", "root");
+		
+			JdbcEmployeDao employeEngine = new JdbcEmployeDao(connection);
+		}catch (ClassNotFoundException e)
+		{
+			
+		}
+		
+		GUI g = new GUI();
+	}
+
+}
